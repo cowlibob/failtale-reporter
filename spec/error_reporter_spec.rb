@@ -12,7 +12,7 @@ describe "ErrorReporter" do
   
   it "should send error reports for selected exceptions" do
     ErrorReporter.should_receive(:post).with('/reports.xml', an_instance_of(Hash))
-    ErrorReporter.reportable_exceptions = [ArgumentError]
+    ErrorReporter.reportable_exceptions ArgumentError
     lambda do
       ErrorReporter.report do
         raise ArgumentError, "hello"
@@ -22,7 +22,7 @@ describe "ErrorReporter" do
   
   it "should not send error reports for non-selected exceptions" do
     ErrorReporter.should_not_receive(:post)
-    ErrorReporter.reportable_exceptions = [ArgumentError]
+    ErrorReporter.reportable_exceptions ArgumentError
     lambda do
       ErrorReporter.report do
         raise RuntimeError, "hello"
