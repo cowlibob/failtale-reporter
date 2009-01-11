@@ -1,2 +1,2 @@
 
-require 'error_reporter'
+require File.dirname(__FILE__)+'/error_reporter'

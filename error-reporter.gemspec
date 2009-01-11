@@ -8,6 +8,7 @@ Gem::Specification.new do |s|
   s.authors = ["Simon Menke"]
   s.date = %q{2009-01-11}
   s.email = %q{simon@mrhenry.be}
+  s.files = ["lib/error-reporter.rb", "lib/error_reporter/adapters/rails.rb", "lib/error_reporter/error.rb", "lib/error_reporter.rb", "lib/mrhenry-error-reporter.rb", "rails/init.rb", "examples/app.rb", "README.textile"]
   s.homepage = %q{http://github.com/mrhenry}
   s.require_paths = ["lib"]
   s.rubyforge_project = %q{error-reporter}
