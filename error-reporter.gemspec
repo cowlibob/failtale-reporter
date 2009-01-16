@@ -6,9 +6,9 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Simon Menke"]
-  s.date = %q{2009-01-13}
+  s.date = %q{2009-01-16}
   s.email = %q{simon.menke@gmail.com}
-  s.files = ["lib/error-reporter.rb", "lib/error_reporter/adapters/rails.rb", "lib/error_reporter/error.rb", "lib/error_reporter.rb", "lib/mrhenry-error-reporter.rb", "README.textile", "spec/error_reporter_spec.rb", "spec/error_spec.rb", "rails/init.rb"]
+  s.files = ["README.textile", "lib/error-reporter.rb", "lib/error_reporter/adapters/rails.rb", "lib/error_reporter/error.rb", "lib/error_reporter.rb", "lib/mrhenry-error-reporter.rb", "rails/init.rb", "spec/error_reporter_spec.rb", "spec/error_spec.rb"]
   s.has_rdoc = true
   s.homepage = %q{http://github.com/mrhenry}
   s.require_paths = ["lib"]
