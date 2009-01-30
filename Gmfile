@@ -6,4 +6,5 @@ general:
 dependencies:
   - httparty >= 0.2.6
 github:
+  emulate: true
   username: mrhenry
