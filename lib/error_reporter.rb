@@ -57,8 +57,6 @@ module ErrorReporter
     params = error.to_param
     params[:report][:project] = { :api_token => api_token }
     self.post('/reports.xml', :body => params)
-  rescue Net::HTTPServerException => e
-    p e
   end
   
 end
