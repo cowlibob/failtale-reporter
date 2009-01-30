@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.rubyforge_project = %q{failtale-reporter}
   s.rubygems_version = %q{1.3.1}
   s.summary = %q{A Ruby error reporter for our failtale service}
-  s.test_files = ["spec/error_reporter_spec.rb", "spec/error_spec.rb"]
+  s.test_files = ["spec/error_reporter_spec.rb", "spec/error_spec.rb", "spec/error_reporter_spec.rb", "spec/error_spec.rb"]
 
   if s.respond_to? :specification_version then
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
@@ -22,10 +22,13 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<httparty>, [">= 0.2.6"])
+      s.add_runtime_dependency(%q<httparty>, [">= 0.2.6"])
     else
+      s.add_dependency(%q<httparty>, [">= 0.2.6"])
       s.add_dependency(%q<httparty>, [">= 0.2.6"])
     end
   else
+    s.add_dependency(%q<httparty>, [">= 0.2.6"])
     s.add_dependency(%q<httparty>, [">= 0.2.6"])
   end
 end
