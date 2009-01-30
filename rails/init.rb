@@ -1,2 +1,2 @@
 
-::ErrorReporter.load_adapter('rails')
+::FailtaleReporter.load_adapter('rails')

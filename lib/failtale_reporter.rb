@@ -8,11 +8,11 @@ end
 
 require File.dirname(__FILE__)+'/failtale_reporter/error'
 
-module ErrorReporter
+module FailtaleReporter
   
   include HTTParty
   
-  base_uri 'errors.be'
+  base_uri 'failtale.be'
   format :xml
   
   def self.load_adapter(name)
@@ -47,7 +47,7 @@ module ErrorReporter
   
   def self.handle_exception(exception)
     return exception if exception.nil?
-    return exception if exception.is_a? ErrorReporter::Error
+    return exception if exception.is_a? FailtaleReporter::Error
     return nil unless reportable_exceptions.any? {|c| exception.is_a? c }
     return nil if     ignored_exceptions.any?    {|c| exception.is_a? c }
     Error.new(exception)

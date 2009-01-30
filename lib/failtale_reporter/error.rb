@@ -1,5 +1,5 @@
 
-module ErrorReporter
+module FailtaleReporter
   class Error
     
     attr_accessor :hash_string

@@ -1,5 +1,5 @@
 
-module ErrorReporter
+module FailtaleReporter
   module Adapters
     
     module Rails
@@ -12,14 +12,14 @@ module ErrorReporter
       def self.included(target)
         target.send :alias_method_chain, :rescue_action_in_public, :errors
         
-        ErrorReporter.configure do |config|
+        FailtaleReporter.configure do |config|
           config.ignored_exceptions IGNORED_EXCEPTIONS
         end
       end
       
       def rescue_action_in_public_with_errors(exception)
         is_private = ::Rails.env.development? or ::Rails.env.test?
-        ErrorReporter.report(exception) unless is_private
+        FailtaleReporter.report(exception) unless is_private
         rescue_action_in_public_without_errors(exception)
       end
       
@@ -28,4 +28,4 @@ module ErrorReporter
   end
 end
 
-::ActionController::Base.send :include, ErrorReporter::Adapters::Rails
+::ActionController::Base.send :include, FailtaleReporter::Adapters::Rails
