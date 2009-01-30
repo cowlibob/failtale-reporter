@@ -1,5 +1,5 @@
 
-require File.dirname(__FILE__)+'/../lib/error_reporter'
+require File.dirname(__FILE__)+'/../lib/failtale_reporter'
 
 ErrorReporter.configure do |config|
   config.base_uri  'errors.dev'
