@@ -14,6 +14,7 @@ module FailtaleReporter
         
         FailtaleReporter.configure do |config|
           config.ignored_exceptions IGNORED_EXCEPTIONS
+          config.default_reporter "rails"
         end
       end
       
