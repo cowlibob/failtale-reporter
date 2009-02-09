@@ -1,10 +1,10 @@
 general:
   name:     failtale-reporter
-  version:  0.0.2
+  version:  0.0.3
   summary:  A Ruby error reporter for our failtale service
   homepage: http://github.com/mrhenry
 dependencies:
-  - httparty >= 0.2.6
+  - httparty >= 0.3.0
 github:
   emulate: true
   username: mrhenry
