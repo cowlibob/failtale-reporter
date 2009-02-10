@@ -1,13 +1,12 @@
 
 begin
   require 'digest/sha1'
-  require 'httparty'
+  httparty = Dir.glob(File.dirname(__FILE__)+'/../vendor/httparty-*/lib/httparty.rb').last
+  httparty ||= 'httparty'
+  require httparty
 rescue LoadError
   retry if require 'rubygems'
 end
-
-require File.dirname(__FILE__)+'/failtale_reporter/error'
-require File.dirname(__FILE__)+'/failtale_reporter/client'
 
 module FailtaleReporter
   
@@ -22,7 +21,7 @@ module FailtaleReporter
   
   class << self
     def reportable_exceptions(*arr)
-      arr = [Exception] if arr.empty?
+      arr = [Exception] if (arr || []).empty?
       @reportable_exceptions ||= arr.flatten
     end
     def ignored_exceptions(*arr)
@@ -47,3 +46,6 @@ module FailtaleReporter
   end
   
 end
+
+require File.dirname(__FILE__)+'/failtale_reporter/error'
+require File.dirname(__FILE__)+'/failtale_reporter/client'
