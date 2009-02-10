@@ -13,7 +13,7 @@ module FailtaleReporter
       IGNORED_EXCEPTIONS.freeze
       
       def self.included(target)
-        target.send :alias_method_chain, :rescue_action_in_public, :errors
+        target.send :alias_method_chain, :rescue_action_in_public, :failtale
         
         FailtaleReporter.configure do |config|
           config.ignored_exceptions IGNORED_EXCEPTIONS
@@ -21,15 +21,17 @@ module FailtaleReporter
         end
       end
       
-      def rescue_action_in_public_with_errors(exception)
+      def rescue_action_in_public_with_failtale(exception)
         FailtaleReporter.report(exception) unless is_private?
-        rescue_action_in_public_without_errors(exception)
+        rescue_action_in_public_without_failtale(exception)
       end
       
       protected
       
       def is_private? #nodoc:
-        defined?(RAILS_ENV) and !['development', 'test'].include?(RAILS_ENV)
+        if defined?(RAILS_ENV)
+          ['development', 'test'].include?(RAILS_ENV)
+        end
       end
       
     end
