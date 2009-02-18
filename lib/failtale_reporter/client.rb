@@ -20,6 +20,9 @@ module FailtaleReporter
       return nil unless FailtaleReporter.reportable_exceptions.any? {|c| exception.is_a? c }
       return nil if     FailtaleReporter.ignored_exceptions.any?    {|c| exception.is_a? c }
       FailtaleReporter::Error.new(exception)
+    rescue Exception => e
+      puts "#{e.class}: #{e.message}"
+      puts e.backtrace
     end
     
     def post_report(error)

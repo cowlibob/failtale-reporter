@@ -17,7 +17,7 @@ module FailtaleReporter
       
       self.name = "#{exception.class} #{exception.message}"
       self.description = exception.message
-      self.backtrace = exception.backtrace.join("\n")
+      self.backtrace = FailtaleReporter.clean_backtrace(exception.backtrace).join("\n")
       self.environment = ENV.to_hash
       self.hash_string = Digest::SHA1.hexdigest(
         [exception.class, exception.backtrace.first].join('--')
