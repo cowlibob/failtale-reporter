@@ -66,16 +66,6 @@ module FailtaleReporter
     def backtrace_cleaner_regexp(path)
       Regexp.new("^#{Regexp.escape(File.expand_path(path))}")
     end
-    def gem_backtrace_cleaner(spec)
-      @gem_backtrace_cleaner ||= {}
-      unless @gem_backtrace_cleaner[spec.full_name]
-        @gem_backtrace_cleaner[spec.full_name] = {
-          :regexp => backtrace_cleaner_regexp(spec.full_gem_path),
-          :label  => "[GEM: #{spec.name} @#{spec.version.to_s}]"
-        }
-      end
-      @gem_backtrace_cleaner[spec.full_name]
-    end
   end
   
   default_reporter 'ruby'
@@ -86,14 +76,28 @@ module FailtaleReporter
     end
   end
   
-  backtrace_cleaner do |line|
-    cleaned_line = nil
-    Gem.loaded_specs.values.each do |spec|
-      options = FailtaleReporter.gem_backtrace_cleaner(spec)
-      cleaned_line = line.sub!(options[:regexp], options[:label])
-      break if cleaned_line
+  if defined?(Gem)
+    class << self
+      def gem_backtrace_cleaner(spec)
+        @gem_backtrace_cleaner ||= {}
+        unless @gem_backtrace_cleaner[spec.full_name]
+          @gem_backtrace_cleaner[spec.full_name] = {
+            :regexp => backtrace_cleaner_regexp(spec.full_gem_path),
+            :label  => "[GEM: #{spec.name} @#{spec.version.to_s}]"
+          }
+        end
+        @gem_backtrace_cleaner[spec.full_name]
+      end
     end
-    cleaned_line
+    backtrace_cleaner do |line|
+      cleaned_line = nil
+      Gem.loaded_specs.values.each do |spec|
+        options = FailtaleReporter.gem_backtrace_cleaner(spec)
+        cleaned_line = line.sub!(options[:regexp], options[:label])
+        break if cleaned_line
+      end
+      cleaned_line
+    end
   end
   
   def self.report(error=nil, &block)
