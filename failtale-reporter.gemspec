@@ -2,13 +2,13 @@
 
 Gem::Specification.new do |s|
   s.name = %q{failtale-reporter}
-  s.version = "0.0.5"
+  s.version = "0.1.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Simon Menke"]
-  s.date = %q{2009-02-10}
+  s.date = %q{2009-02-18}
   s.email = %q{simon.menke@gmail.com}
-  s.files = ["lib/failtale-reporter.rb", "lib/failtale_reporter/adapters/rails.rb", "lib/failtale_reporter/client.rb", "lib/failtale_reporter/error.rb", "lib/failtale_reporter.rb", "lib/mrhenry-failtale-reporter.rb", "rails/init.rb", "tasks/failtale.rake", "spec/error_reporter_spec.rb", "spec/error_spec.rb", "README.textile"]
+  s.files = ["lib/failtale-reporter.rb", "lib/failtale_reporter/adapters/rails.rb", "lib/failtale_reporter/client.rb", "lib/failtale_reporter/error.rb", "lib/failtale_reporter.rb", "lib/mrhenry-failtale-reporter.rb", "rails/init.rb", "tasks/failtale.rake", "spec/error_reporter_spec.rb", "spec/error_spec.rb", "LICENSE.txt", "README.textile"]
   s.homepage = %q{http://github.com/mrhenry}
   s.require_paths = ["lib"]
   s.rubyforge_project = %q{failtale-reporter}
