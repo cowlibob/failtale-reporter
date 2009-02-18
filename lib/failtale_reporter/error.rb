@@ -11,7 +11,7 @@ module FailtaleReporter
     attr_accessor :backtrace
     attr_accessor :environment
     
-    def initialize(exception)
+    def initialize(exception, ctxs=[])
       self.api_token = FailtaleReporter.api_token
       self.reporter  = FailtaleReporter.default_reporter
       
@@ -22,6 +22,15 @@ module FailtaleReporter
       self.hash_string = Digest::SHA1.hexdigest(
         [exception.class, exception.backtrace.first].join('--')
       )
+      FailtaleReporter.collect_information(self, ctxs)
+      
+      self.backtrace = self.backtrace.inspect unless self.backtrace.is_a? String 
+      self.environment = self.environment.inject({}) do |m,(k,v)|
+        k = k.inspect unless k.is_a? String
+        v = v.inspect unless v.is_a? String
+        m[k] = v
+        m
+      end
     end
     
     def to_param

@@ -66,6 +66,17 @@ module FailtaleReporter
     def backtrace_cleaner_regexp(path)
       Regexp.new("^#{Regexp.escape(File.expand_path(path))}")
     end
+    def collect_information(error, ctxs)
+      information_collectors.each do |proc|
+        proc.call(error, *ctxs)
+      end
+    end
+    def information_collectors
+      @information_collectors ||= []
+    end
+    def information_collector(&block)
+      information_collectors.push(block)
+    end
   end
   
   default_reporter 'ruby'
@@ -100,8 +111,8 @@ module FailtaleReporter
     end
   end
   
-  def self.report(error=nil, &block)
-    Client.new.report(error, &block)
+  def self.report(error=nil, *ctxs, &block)
+    Client.new.report(error, *ctxs, &block)
   end
   
 end
