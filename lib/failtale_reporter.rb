@@ -1,92 +1,34 @@
-
-require 'digest/sha1'
-begin
-  httparty = Dir.glob(File.dirname(__FILE__)+'/../vendor/httparty-*/lib/httparty.rb').last
-  httparty ||= 'httparty'
-  require httparty
-rescue LoadError
-  retry if require 'rubygems'
-end
-
 module FailtaleReporter
-  
+
+  require 'digest/sha1'
+  require 'httparty'
+
+  require 'failtale_reporter/version'
+  require 'failtale_reporter/error'
+  require 'failtale_reporter/client'
+  require 'failtale_reporter/configuration'
+  require 'failtale_reporter/backtrace_cleaner'
+  require 'failtale_reporter/information_collector'
+  require 'failtale_reporter/adapters'
+
+
   include HTTParty
-  
+  extend FailtaleReporter::Adapters
+  extend FailtaleReporter::Configuration
+  extend FailtaleReporter::BacktraceCleaner
+  extend FailtaleReporter::InformationCollector
+
   base_uri 'failtale.be'
   format :xml
-  
-  def self.load_adapter(name)
-    require File.dirname(__FILE__)+"/failtale_reporter/adapters/#{name}"
-  end
-  
-  class << self
-    def reportable_exceptions(*arr)
-      arr = [Exception] if (arr || []).empty?
-      @reportable_exceptions ||= arr.flatten
-    end
-    def ignored_exceptions(*arr)
-      @ignored_exceptions ||= arr.flatten
-    end
-    def api_token(token=nil)
-      @api_token ||= token
-    end
-    def default_reporter(reporter=nil)
-      @default_reporter = reporter if reporter
-      @default_reporter
-    end
-    def application_root(path=nil)
-      @application_root = backtrace_cleaner_regexp(path) if path
-      @application_root
-    end
-    def configure
-      yield self
-    end
-    def clean_backtrace(backtrace)
-      backtrace.collect do |line|
-        path = File.expand_path(line.split(':').first)
-        if File.exist?(path)
-          line = File.expand_path(line)
-          cleaned_line = nil
-          backtrace_cleaners.each do |proc|
-            cleaned_line = proc.call(line)
-            break if cleaned_line
-          end
-          cleaned_line || line
-        else
-          line
-        end
-      end
-    end
-    def backtrace_cleaners
-      @backtrace_cleaners ||= []
-    end
-    def backtrace_cleaner(&block)
-      backtrace_cleaners.push(block)
-    end
-    def backtrace_cleaner_regexp(path)
-      Regexp.new("^#{Regexp.escape(File.expand_path(path))}")
-    end
-    def collect_information(error, ctxs)
-      information_collectors.each do |proc|
-        proc.call(error, *ctxs)
-      end
-    end
-    def information_collectors
-      @information_collectors ||= []
-    end
-    def information_collector(&block)
-      information_collectors.push(block)
-    end
-  end
-  
+
   default_reporter 'ruby'
-  
+
   backtrace_cleaner do |line|
     if FailtaleReporter.application_root
       line.sub! FailtaleReporter.application_root, "[APP]"
     end
   end
-  
+
   if defined?(Gem)
     class << self
       def gem_backtrace_cleaner(spec)
@@ -110,12 +52,9 @@ module FailtaleReporter
       cleaned_line
     end
   end
-  
+
   def self.report(error=nil, *ctxs, &block)
     Client.new.report(error, *ctxs, &block)
   end
-  
-end
 
-require File.dirname(__FILE__)+'/failtale_reporter/error'
-require File.dirname(__FILE__)+'/failtale_reporter/client'
+end

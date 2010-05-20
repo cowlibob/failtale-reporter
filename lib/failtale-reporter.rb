@@ -1,2 +1,1 @@
-
-require File.dirname(__FILE__)+'/failtale_reporter'
+require File.expand_path('../failtale_reporter', __FILE__)
