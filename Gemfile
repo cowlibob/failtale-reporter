@@ -1,3 +1,2 @@
 source :gemcutter
-
-gem 'httparty'
+gemspec

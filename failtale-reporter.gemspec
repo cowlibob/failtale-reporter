@@ -22,5 +22,6 @@ Gem::Specification.new do |s|
   s.files        = Dir.glob("{lib,rails,spec}/**/*") +
                    %w(LICENSE README.md)
 
-  s.add_bundler_dependencies
+  # s.add_bundler_dependencies
+  s.add_runtime_dependency 'httparty'
 end
