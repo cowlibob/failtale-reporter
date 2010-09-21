@@ -23,6 +23,11 @@ module FailtaleReporter::Configuration
     @application_root
   end
 
+  def env_filter_words(*arr)
+    @filter_words ||= arr.flatten || []
+    @filter_words
+  end
+
   def configure
     yield self
   end

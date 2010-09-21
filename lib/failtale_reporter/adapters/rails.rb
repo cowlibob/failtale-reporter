@@ -31,6 +31,8 @@ module FailtaleReporter::Adapters::Rails
 
         env.delete('action_controller.rescue.response')
         env.delete('action_controller.rescue.request')
+        env.delete('rack.request.form_vars')
+        env.delete('rack.request')
         error.environment = env
       end
     end
