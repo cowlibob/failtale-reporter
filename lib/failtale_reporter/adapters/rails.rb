@@ -5,7 +5,12 @@ module FailtaleReporter
     @force_public = flag unless flag.nil?
     @force_public
   end
-
+  
+   def self.enabled(flag=nil)
+    @enabled = flag unless flag.nil?
+    @enabled
+  end
+  
 end
 
 module FailtaleReporter::Adapters::Rails
@@ -33,13 +38,14 @@ module FailtaleReporter::Adapters::Rails
         env.delete('action_controller.rescue.request')
         env.delete('rack.request.form_vars')
         env.delete('rack.request')
+        env.delete('rack.request.cookie_hash')
         error.environment = env
       end
     end
   end
 
   def rescue_action_with_failtale(exception)
-    FailtaleReporter.report(exception, self) unless is_private?
+    FailtaleReporter.report(exception, self) unless is_private? or !FailtaleReporter.enabled
     rescue_action_without_failtale(exception)
   end
 
